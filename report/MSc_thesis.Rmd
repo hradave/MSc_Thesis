@@ -1,0 +1,54 @@
+---
+title: 'Digital Pathology'
+subtitle: "732A64 Master's Thesis"
+author: |
+  | David Hrabovszki
+  | Linköping University
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  pdf_document:
+    fig_caption: yes
+    includes:
+      in_header: my_header.tex
+  html_document:
+    df_print: paged
+header-includes: \usepackage{float}
+bibliography: bibliopaper.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r warning = FALSE, message = FALSE}
+# libraries
+library(knitr)
+library(kableExtra)
+library(tidyverse)
+```
+
+
+# Introduction
+
+# Data
+
+# Methods
+
+# Results
+
+# Discussion
+
+# Future Improvements
+
+# Conclusions
+
+\pagebreak
+
+# References
+
+::: {#refs}
+:::
+
+# Appendix
+
+
