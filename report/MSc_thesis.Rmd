@@ -16,9 +16,13 @@ output:
   html_document:
     df_print: paged
 fontsize: 12pt
-header-includes: \usepackage{float}
+header-includes: 
+  \usepackage{float}
+  \documentclass[msc,lith,swedish]{liuthesis}
 bibliography: bibliopaper.bib
+
 ---
+
 
 
 ```{r setup, include=FALSE}
