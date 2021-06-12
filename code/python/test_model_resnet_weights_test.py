@@ -58,8 +58,8 @@ save_path = os.path.join('/home/davhr856/thesis/saved_models', patch_size)
 # dimensions of our images
 img_width, img_height = 224, 224
 
-valid_data_dir = os.path.join(base_path, 'validation')
-#test_data_dir = os.path.join(base_path, 'test_extra')
+#valid_data_dir = os.path.join(base_path, 'validation')
+test_data_dir = os.path.join(base_path, 'test_extra')
 
 ### hyperparameters
 batch_size = 64
@@ -72,7 +72,7 @@ else:
 
 test_datagen = ImageDataGenerator(preprocessing_function = tf.keras.applications.resnet.preprocess_input)
 
-"""
+
 # initialize the testing generator
 test_generator = test_datagen.flow_from_directory(
     directory=test_data_dir,
@@ -82,8 +82,8 @@ test_generator = test_datagen.flow_from_directory(
     shuffle=False,
     interpolation = "bicubic",
     batch_size=batch_size)
-"""
 
+"""
 # initialize the validation generator
 valid_generator = test_datagen.flow_from_directory(
     directory=valid_data_dir,
@@ -96,14 +96,14 @@ valid_generator = test_datagen.flow_from_directory(
 
 print(valid_generator.class_indices)
 #print(test_generator.class_indices)
-
+"""
 
 model_save_path = os.path.join(save_path, model_name)
 
-nvalid = len(valid_generator.labels)
-#ntest = len(test_generator.labels)
-validation_steps = nvalid / batch_size
-#test_steps = ntest / batch_size
+#nvalid = len(valid_generator.labels)
+ntest = len(test_generator.labels)
+#validation_steps = nvalid / batch_size
+test_steps = ntest / batch_size
 
 # load model
 start = timer()
@@ -114,16 +114,16 @@ model = keras.models.load_model(os.path.join(model_save_path, 'model'))
 MC = 30
 # reset the testing generator and then use our trained model to
 # make predictions on the data
-print("[INFO] predicting on validation set...")
-valid_generator.reset()
-y_probas_valid = np.stack([model.predict(valid_generator, steps=validation_steps) for sample in range(MC)])
+#print("[INFO] predicting on validation set...")
+#valid_generator.reset()
+#y_probas_valid = np.stack([model.predict(valid_generator, steps=validation_steps) for sample in range(MC)])
 
-#print("[INFO] predictiong on test set...")
-#test_generator.reset()
-#y_probas_test = np.stack([model.predict(test_generator, steps=test_steps) for sample in range(MC)])
+print("[INFO] predictiong on test set...")
+test_generator.reset()
+y_probas_test = np.stack([model.predict(test_generator, steps=test_steps) for sample in range(MC)])
 
 # save np arrays
-np.save(os.path.join(model_save_path, 'valid_30MC'), y_probas_valid)
-#np.save(os.path.join(model_save_path, 'test_100MC'), y_probas_test)
+#np.save(os.path.join(model_save_path, 'valid_30MC'), y_probas_valid)
+np.save(os.path.join(model_save_path, 'test_30MC'), y_probas_test)
 
 print("Testing finished succesfully!")

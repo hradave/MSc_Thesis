@@ -51,6 +51,9 @@ model_save_path = os.path.join(save_path, model_name)
 log_file_name = 'slide_predictions_log_' + str(model_name) + '_' + str(patch_size) + '.txt'
 log_path = os.path.join(model_save_path, 'slide_predictions', log_file_name)
 
+if not os.path.exists(os.path.join(model_save_path, 'slide_predictions')):
+    os.makedirs(os.path.join(model_save_path, 'slide_predictions'))
+
 logfile = open(log_path,'a')
 logfile.write('\n')
 logfile.write('\nSlide aggregation results for model: ' + str(model_name) + ' - ' + str(patch_size))
@@ -64,7 +67,7 @@ valid_data_dir = os.path.join(base_path, 'validation')
 test_data_dir = os.path.join(base_path, 'test_extra')
 
 ### hyperparameters
-batch_size = 256
+batch_size = 64
 
 if K.image_data_format() == 'channels_first':
     input_shape = (3, img_width, img_height)
